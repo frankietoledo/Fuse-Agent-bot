@@ -1,5 +1,7 @@
 database.sqlite
 state.db
+*.db
+*.sqlite
 
 # prod
 dist/
