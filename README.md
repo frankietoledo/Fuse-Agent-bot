@@ -1,12 +1,11 @@
 # Fuse Agent for Linear Integration
 
-A Agent that processes Linear tasks through OpenAI-powered operations. The system handles OAuth authentication with Linear, webhook processing, and maintains *conversation state*.
+A sophisticated agent that processes Linear tasks through OpenAI-powered operations. The system handles OAuth authentication with Linear, webhook processing, and maintains conversation state. *Based on [weather-bot from linear](https://github.com/linear/weather-bot)* reworked without Cloudflare integration
 
 ## Architecture
 
 ```
 .
-├── docker-compose.local.yml      
 ├── src/
 │   ├── index.ts                  
 │   ├── lib/
@@ -15,33 +14,28 @@ A Agent that processes Linear tasks through OpenAI-powered operations. The syste
 │   │   │   ├── prompt.ts         # Agent instruction prompt
 │   │   │   └── tools.ts          # Available operations
 │   │   ├── oauth.ts              # Linear OAuth handling
-│   │   ├── storage/
-│   │   ├── types.ts              
-│   │   └── webhookTypes.ts       
-│   └── utils.ts                  
+│   │   ├── storage/              # State management implementations
+│   │   ├── types.ts              # Type definitions
+│   │   └── webhookTypes.ts       # Webhook payload handling
+│   └── utils.ts                  # Utility functions
 └── .env.example                  # Environment configuration template
 ```
 
 ## Core Components
 
-### 1. Agent Client (`src/lib/agent/agentClient.ts`)
+### 1. Agent Client ([`src/lib/agent/agentClient.ts`](src/lib/agent/agentClient.ts))
 - Manages task processing workflow
 - Maintains conversation state
 - Interfaces with OpenAI API
 
-### 2. Storage Implementations
-- **SQLiteStateStorage**: Persistent conversation state
-- **InMemoryActivityStorage**: Temporary activity tracking
-
-### 3. OAuth Handler (`src/lib/oauth.ts`)
+### 2. OAuth Handler ([`src/lib/oauth.ts`](src/lib/oauth.ts))
 - Manages Linear OAuth flow
 - Token storage and retrieval
 - Webhook verification
 
-### 4. Webhook Processor (`src/index.ts`)
-- Endpoint: `POST /webhook`
-- Handles Linear webhook events
-- Routes to appropriate handlers
+### 3. Storage Implementations ([`src/lib/storage/`](src/lib/storage/))
+- SQLiteStateStorage: Persistent conversation state
+- InMemoryActivityStorage: Temporary activity tracking
 
 ## Setup
 
@@ -50,7 +44,7 @@ A Agent that processes Linear tasks through OpenAI-powered operations. The syste
 - OpenAI API key
 
 ### Configuration
-1. Copy `.env.example` to `.env` and update values:
+1. Copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
 ```
@@ -67,28 +61,34 @@ WORKER_URL=http://localhost:3000
 ## Development
 
 ### Local Execution
-
-use some tool like ngrok to expose the service and remember updates urls in `.env` and linear  (project-settings->api)
-
+1. Start the development server:
 ```bash
-    npm run dev
+npm run dev
 ```
 
+2. Expose your local service using ngrok:
+```bash
+ngrok http 3000
+```
+
+3. Update configuration:
+- Set `WORKER_URL` in `.env` to your ngrok URL
+- Update Linear project settings (Project → Settings → API) with the ngrok URL
 
 ## Webhook Processing Flow
 1. Linear sends webhook to `/webhook`
 2. System verifies signature using `LINEAR_WEBHOOK_SECRET`
-3. Handles two event types:
-   - `AgentSessionEvent`
-   - `Issue`
+3. Handles event types:
+   - `AgentSessionEvent`: Processes user prompts
+   - `Issue`: Filters and processes task-related events
 
 ```mermaid
 sequenceDiagram
     participant Linear
     participant FuseAgent
     participant OpenAI
-
-    Linear->>FuseAgent: Webhook (AgentSessionEvent/Issue)
+    
+    Linear->>FuseAgent: Webhook event
     FuseAgent->>FuseAgent: Verify signature
     FuseAgent->>FuseAgent: Process event type
     FuseAgent->>OpenAI: Submit prompt
