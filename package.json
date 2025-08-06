@@ -1,0 +1,37 @@
+{
+  "name": "Fuse-agent",
+  "description": "Agent that interacts with Linear",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "start": "docker-compose -f docker-compose.local.yml up -d",
+    "stop": "docker-compose -f docker-compose.local.yml down",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.8.0",
+    "@linear/sdk": "54.0.0",
+    "@octokit/rest": "^22.0.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "better-sqlite3": "^12.2.0",
+    "dotenv": "^17.2.1",
+    "hono": "^4.8.12",
+    "openai": "4.85.4",
+    "punycode": "^2.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^24.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "husky": "^9.1.7",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}

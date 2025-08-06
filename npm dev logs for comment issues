@@ -1,0 +1,452 @@
+
+  "createdAt": "2025-08-04T21:11:51.300Z",
+  "data": {
+    "id": "b326bc9f-f4b9-4482-ba64-7a4e297b52bd",
+    "createdAt": "2025-08-04T21:02:22.417Z",
+    "updatedAt": "2025-08-04T21:11:51.182Z",
+    "number": 19,
+    "title": "test new issue wo tags but requires",
+    "priority": 0,
+    "sortOrder": -7391,
+    "prioritySortOrder": -7419.38,
+    "slaType": "all",
+    "addedToProjectAt": "2025-08-04T21:02:22.444Z",
+    "addedToTeamAt": "2025-08-04T21:02:22.444Z",
+    "labelIds": [],
+    "teamId": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+    "projectId": "6739083b-ed15-4965-b1cc-07dcb58a7f73",
+    "previousIdentifiers": [],
+    "creatorId": "76215bf3-ae2a-4267-ac29-72422c152321",
+    "stateId": "6063416f-c195-4616-b357-e7984a254115",
+    "reactionData": [],
+    "priorityLabel": "No priority",
+    "botActor": null,
+    "identifier": "FUS-19",
+    "url": "https://linear.app/fuse-project/issue/FUS-19/test-new-issue-wo-tags-but-requires",
+    "subscriberIds": [
+      "76215bf3-ae2a-4267-ac29-72422c152321",
+      "fc56bce0-47fe-4264-a9f3-771121aafdf4"
+    ],
+    "project": {
+      "id": "6739083b-ed15-4965-b1cc-07dcb58a7f73",
+      "name": "React-app",
+      "url": "https://linear.app/fuse-project/project/react-app-5e8f2ac48596"
+    },
+    "state": {
+      "id": "6063416f-c195-4616-b357-e7984a254115",
+      "color": "#e2e2e2",
+      "name": "Todo",
+      "type": "unstarted"
+    },
+    "team": {
+      "id": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+      "key": "FUS",
+      "name": "Fuse-project"
+    },
+    "syncedWith": [
+      {
+        "id": "3290775057",
+        "service": "github",
+        "metadata": {
+          "repo": "react-ai-agent",
+          "owner": "frankietoledo",
+          "number": 9
+        }
+      }
+    ],
+    "labels": [],
+    "description": "requires: readJsonFromRepo",
+    "descriptionData": "{\"type\":\"doc\",\"content\":[{\"type\":\"paragraph\",\"content\":[{\"type\":\"text\",\"text\":\"requires: readJsonFromRepo\"}]}]}"
+  },
+  "updatedFrom": {
+    "subscriberIds": [
+      "76215bf3-ae2a-4267-ac29-72422c152321"
+    ]
+  },
+  "url": "https://linear.app/fuse-project/issue/FUS-19/test-new-issue-wo-tags-but-requires",
+  "type": "Issue",
+  "organizationId": "34c68d9f-3fc8-466e-8b0d-6ae75fad4d53",
+  "webhookTimestamp": 1754341911636,
+  "webhookId": "c1ef561d-d874-4e03-a814-03b846c220ba"
+}
+Evaluating type: Issue
+Evaluating data.id: true
+Evaluating data.title: true
+Payload validation result: true
+Processing Issue webhook for: b326bc9f-f4b9-4482-ba64-7a4e297b52bd test new issue wo tags but requires
+payload: {
+  id: 'b326bc9f-f4b9-4482-ba64-7a4e297b52bd',
+  createdAt: '2025-08-04T21:02:22.417Z',
+  updatedAt: '2025-08-04T21:11:51.182Z',
+  number: 19,
+  title: 'test new issue wo tags but requires',
+  priority: 0,
+  sortOrder: -7391,
+  prioritySortOrder: -7419.38,
+  slaType: 'all',
+  addedToProjectAt: '2025-08-04T21:02:22.444Z',
+  addedToTeamAt: '2025-08-04T21:02:22.444Z',
+  labelIds: [],
+  teamId: 'd2fd5a30-5097-4479-b344-93f968d0df3c',
+  projectId: '6739083b-ed15-4965-b1cc-07dcb58a7f73',
+  previousIdentifiers: [],
+  creatorId: '76215bf3-ae2a-4267-ac29-72422c152321',
+  stateId: '6063416f-c195-4616-b357-e7984a254115',
+  reactionData: [],
+  priorityLabel: 'No priority',
+  botActor: null,
+  identifier: 'FUS-19',
+  url: 'https://linear.app/fuse-project/issue/FUS-19/test-new-issue-wo-tags-but-requires',
+  subscriberIds: [
+    '76215bf3-ae2a-4267-ac29-72422c152321',
+    'fc56bce0-47fe-4264-a9f3-771121aafdf4'
+  ],
+  project: {
+    id: '6739083b-ed15-4965-b1cc-07dcb58a7f73',
+    name: 'React-app',
+    url: 'https://linear.app/fuse-project/project/react-app-5e8f2ac48596'
+  },
+  state: {
+    id: '6063416f-c195-4616-b357-e7984a254115',
+    color: '#e2e2e2',
+    name: 'Todo',
+    type: 'unstarted'
+  },
+  team: {
+    id: 'd2fd5a30-5097-4479-b344-93f968d0df3c',
+    key: 'FUS',
+    name: 'Fuse-project'
+  },
+  syncedWith: [ { id: '3290775057', service: 'github', metadata: [Object] } ],
+  labels: [],
+  description: 'requires: readJsonFromRepo',
+  descriptionData: '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"requires: readJsonFromRepo"}]}]}'
+}
+Processing issue: {
+  id: 'b326bc9f-f4b9-4482-ba64-7a4e297b52bd',
+  title: 'test new issue wo tags but requires',
+  labels: [],
+  project: 'React-app'
+}
+Issue processing result: false
+Task filtered out - not matching processing criteria
+Raw webhook payload: {"action":"create","actor":{"id":"76215bf3-ae2a-4267-ac29-72422c152321","name":"Frankie Toledo","email":"alexis.frank.toledo@gmail.com","avatarUrl":"https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5","url":"https://linear.app/fuse-project/profiles/alexis.frank.toledo","type":"user"},"createdAt":"2025-08-04T21:12:00.866Z","data":{"id":"f610ea5b-9c52-41c9-9126-f5d613e416fa","createdAt":"2025-08-04T21:12:00.877Z","updatedAt":"2025-08-04T21:12:00.866Z","body":"@fuseagent can you readJsonFromRepo? this json [https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json](https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json)","issueId":"68026925-65e3-4519-9389-27afae068884","userId":"76215bf3-ae2a-4267-ac29-72422c152321","reactionData":[],"botActor":null,"user":{"id":"76215bf3-ae2a-4267-ac29-72422c152321","name":"Frankie Toledo","email":"alexis.frank.toledo@gmail.com","avatarUrl":"https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5","url":"https://linear.app/fuse-project/profiles/alexis.frank.toledo"},"issue":{"id":"68026925-65e3-4519-9389-27afae068884","title":"test new issue wo tags & requires","teamId":"d2fd5a30-5097-4479-b344-93f968d0df3c","team":{"id":"d2fd5a30-5097-4479-b344-93f968d0df3c","key":"FUS","name":"Fuse-project"},"identifier":"FUS-20","url":"https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires"}},"url":"https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires#comment-f610ea5b","type":"Comment","organizationId":"34c68d9f-3fc8-466e-8b0d-6ae75fad4d53","webhookTimestamp":1754341921076,"webhookId":"c1ef561d-d874-4e03-a814-03b846c220ba"}
+Received Linear signature: a7779035f52d9dcda269089517892d92a7925a224e77aec67536550a0708a872
+Parsed webhook payload: {
+  "action": "create",
+  "actor": {
+    "id": "76215bf3-ae2a-4267-ac29-72422c152321",
+    "name": "Frankie Toledo",
+    "email": "alexis.frank.toledo@gmail.com",
+    "avatarUrl": "https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5",
+    "url": "https://linear.app/fuse-project/profiles/alexis.frank.toledo",
+    "type": "user"
+  },
+  "createdAt": "2025-08-04T21:12:00.866Z",
+  "data": {
+    "id": "f610ea5b-9c52-41c9-9126-f5d613e416fa",
+    "createdAt": "2025-08-04T21:12:00.877Z",
+    "updatedAt": "2025-08-04T21:12:00.866Z",
+    "body": "@fuseagent can you readJsonFromRepo? this json [https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json](https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json)",
+    "issueId": "68026925-65e3-4519-9389-27afae068884",
+    "userId": "76215bf3-ae2a-4267-ac29-72422c152321",
+    "reactionData": [],
+    "botActor": null,
+    "user": {
+      "id": "76215bf3-ae2a-4267-ac29-72422c152321",
+      "name": "Frankie Toledo",
+      "email": "alexis.frank.toledo@gmail.com",
+      "avatarUrl": "https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5",
+      "url": "https://linear.app/fuse-project/profiles/alexis.frank.toledo"
+    },
+    "issue": {
+      "id": "68026925-65e3-4519-9389-27afae068884",
+      "title": "test new issue wo tags & requires",
+      "teamId": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+      "team": {
+        "id": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+        "key": "FUS",
+        "name": "Fuse-project"
+      },
+      "identifier": "FUS-20",
+      "url": "https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires"
+    }
+  },
+  "url": "https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires#comment-f610ea5b",
+  "type": "Comment",
+  "organizationId": "34c68d9f-3fc8-466e-8b0d-6ae75fad4d53",
+  "webhookTimestamp": 1754341921076,
+  "webhookId": "c1ef561d-d874-4e03-a814-03b846c220ba"
+}
+Evaluating type: Comment
+Payload validation result: false
+Webhook processed successfully
+Raw webhook payload: {"type":"AgentSessionEvent","action":"created","createdAt":"2025-08-04T21:12:01.294Z","organizationId":"34c68d9f-3fc8-466e-8b0d-6ae75fad4d53","oauthClientId":"de8a47a9-0a3b-47d5-9c5f-36691461a71e","appUserId":"fc56bce0-47fe-4264-a9f3-771121aafdf4","agentSession":{"id":"1b6c3344-286e-4c21-8b0e-8ca304814d3e","createdAt":"2025-08-04T21:12:01.058Z","updatedAt":"2025-08-04T21:12:01.058Z","archivedAt":null,"creatorId":"76215bf3-ae2a-4267-ac29-72422c152321","appUserId":"fc56bce0-47fe-4264-a9f3-771121aafdf4","commentId":"f610ea5b-9c52-41c9-9126-f5d613e416fa","issueId":"68026925-65e3-4519-9389-27afae068884","status":"pending","startedAt":null,"endedAt":null,"type":"commentThread","externalLink":null,"summary":null,"sourceMetadata":{"type":"comment","agentSessionMetadata":{"sourceCommentId":"f610ea5b-9c52-41c9-9126-f5d613e416fa"}},"organizationId":"34c68d9f-3fc8-466e-8b0d-6ae75fad4d53","creator":{"id":"76215bf3-ae2a-4267-ac29-72422c152321","name":"Frankie Toledo","email":"alexis.frank.toledo@gmail.com","avatarUrl":"https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5","url":"https://linear.app/fuse-project/profiles/alexis.frank.toledo"},"comment":{"id":"f610ea5b-9c52-41c9-9126-f5d613e416fa","body":"@fuseagent can you readJsonFromRepo? this json [https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json](https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json)","userId":"76215bf3-ae2a-4267-ac29-72422c152321","issueId":"68026925-65e3-4519-9389-27afae068884"},"issue":{"id":"68026925-65e3-4519-9389-27afae068884","title":"test new issue wo tags & requires","teamId":"d2fd5a30-5097-4479-b344-93f968d0df3c","team":{"id":"d2fd5a30-5097-4479-b344-93f968d0df3c","key":"FUS","name":"Fuse-project"},"identifier":"FUS-20","url":"https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires","description":""}},"previousComments":[{"id":"f610ea5b-9c52-41c9-9126-f5d613e416fa","body":"@fuseagent can you readJsonFromRepo? this json [https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json](https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json)","userId":"76215bf3-ae2a-4267-ac29-72422c152321","issueId":"68026925-65e3-4519-9389-27afae068884"}],"webhookTimestamp":1754341921321,"webhookId":"c1ef561d-d874-4e03-a814-03b846c220ba"}
+Received Linear signature: d3436623a75b002facc97c929623de301a0a6eda0f6b59378f4441f3ee458af9
+Parsed webhook payload: {
+  "type": "AgentSessionEvent",
+  "action": "created",
+  "createdAt": "2025-08-04T21:12:01.294Z",
+  "organizationId": "34c68d9f-3fc8-466e-8b0d-6ae75fad4d53",
+  "oauthClientId": "de8a47a9-0a3b-47d5-9c5f-36691461a71e",
+  "appUserId": "fc56bce0-47fe-4264-a9f3-771121aafdf4",
+  "agentSession": {
+    "id": "1b6c3344-286e-4c21-8b0e-8ca304814d3e",
+    "createdAt": "2025-08-04T21:12:01.058Z",
+    "updatedAt": "2025-08-04T21:12:01.058Z",
+    "archivedAt": null,
+    "creatorId": "76215bf3-ae2a-4267-ac29-72422c152321",
+    "appUserId": "fc56bce0-47fe-4264-a9f3-771121aafdf4",
+    "commentId": "f610ea5b-9c52-41c9-9126-f5d613e416fa",
+    "issueId": "68026925-65e3-4519-9389-27afae068884",
+    "status": "pending",
+    "startedAt": null,
+    "endedAt": null,
+    "type": "commentThread",
+    "externalLink": null,
+    "summary": null,
+    "sourceMetadata": {
+      "type": "comment",
+      "agentSessionMetadata": {
+        "sourceCommentId": "f610ea5b-9c52-41c9-9126-f5d613e416fa"
+      }
+    },
+    "organizationId": "34c68d9f-3fc8-466e-8b0d-6ae75fad4d53",
+    "creator": {
+      "id": "76215bf3-ae2a-4267-ac29-72422c152321",
+      "name": "Frankie Toledo",
+      "email": "alexis.frank.toledo@gmail.com",
+      "avatarUrl": "https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5",
+      "url": "https://linear.app/fuse-project/profiles/alexis.frank.toledo"
+    },
+    "comment": {
+      "id": "f610ea5b-9c52-41c9-9126-f5d613e416fa",
+      "body": "@fuseagent can you readJsonFromRepo? this json [https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json](https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json)",
+      "userId": "76215bf3-ae2a-4267-ac29-72422c152321",
+      "issueId": "68026925-65e3-4519-9389-27afae068884"
+    },
+    "issue": {
+      "id": "68026925-65e3-4519-9389-27afae068884",
+      "title": "test new issue wo tags & requires",
+      "teamId": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+      "team": {
+        "id": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+        "key": "FUS",
+        "name": "Fuse-project"
+      },
+      "identifier": "FUS-20",
+      "url": "https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires",
+      "description": ""
+    }
+  },
+  "previousComments": [
+    {
+      "id": "f610ea5b-9c52-41c9-9126-f5d613e416fa",
+      "body": "@fuseagent can you readJsonFromRepo? this json [https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json](https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json)",
+      "userId": "76215bf3-ae2a-4267-ac29-72422c152321",
+      "issueId": "68026925-65e3-4519-9389-27afae068884"
+    }
+  ],
+  "webhookTimestamp": 1754341921321,
+  "webhookId": "c1ef561d-d874-4e03-a814-03b846c220ba"
+}
+Evaluating type: AgentSessionEvent
+Payload validation result: false
+Processing AgentSessionEvent for org: 34c68d9f-3fc8-466e-8b0d-6ae75fad4d53
+Retrieved OAuth token for org: missing
+Linear OAuth token not found for org: 34c68d9f-3fc8-466e-8b0d-6ae75fad4d53
+Raw webhook payload: {"action":"update","actor":{"id":"76215bf3-ae2a-4267-ac29-72422c152321","name":"Frankie Toledo","email":"alexis.frank.toledo@gmail.com","avatarUrl":"https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5","url":"https://linear.app/fuse-project/profiles/alexis.frank.toledo","type":"user"},"createdAt":"2025-08-04T21:12:00.986Z","data":{"id":"68026925-65e3-4519-9389-27afae068884","createdAt":"2025-08-04T21:02:49.608Z","updatedAt":"2025-08-04T21:12:00.866Z","number":20,"title":"test new issue wo tags & requires","priority":0,"sortOrder":-8440,"prioritySortOrder":-8327.56,"slaType":"all","addedToProjectAt":"2025-08-04T21:02:49.641Z","addedToTeamAt":"2025-08-04T21:02:49.641Z","labelIds":[],"teamId":"d2fd5a30-5097-4479-b344-93f968d0df3c","projectId":"6739083b-ed15-4965-b1cc-07dcb58a7f73","previousIdentifiers":[],"creatorId":"76215bf3-ae2a-4267-ac29-72422c152321","stateId":"6063416f-c195-4616-b357-e7984a254115","reactionData":[],"priorityLabel":"No priority","botActor":null,"identifier":"FUS-20","url":"https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires","subscriberIds":["76215bf3-ae2a-4267-ac29-72422c152321","fc56bce0-47fe-4264-a9f3-771121aafdf4"],"project":{"id":"6739083b-ed15-4965-b1cc-07dcb58a7f73","name":"React-app","url":"https://linear.app/fuse-project/project/react-app-5e8f2ac48596"},"state":{"id":"6063416f-c195-4616-b357-e7984a254115","color":"#e2e2e2","name":"Todo","type":"unstarted"},"team":{"id":"d2fd5a30-5097-4479-b344-93f968d0df3c","key":"FUS","name":"Fuse-project"},"syncedWith":[{"id":"3290775885","service":"github","metadata":{"repo":"react-ai-agent","owner":"frankietoledo","number":10}}],"labels":[],"description":null},"updatedFrom":{"subscriberIds":["76215bf3-ae2a-4267-ac29-72422c152321"]},"url":"https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires","type":"Issue","organizationId":"34c68d9f-3fc8-466e-8b0d-6ae75fad4d53","webhookTimestamp":1754341921366,"webhookId":"c1ef561d-d874-4e03-a814-03b846c220ba"}
+Received Linear signature: 559c05ac1187efd1c494d0795c5f07ba1a7b6915c9d4bac364ee5e47c06b3e6d
+Parsed webhook payload: {
+  "action": "update",
+  "actor": {
+    "id": "76215bf3-ae2a-4267-ac29-72422c152321",
+    "name": "Frankie Toledo",
+    "email": "alexis.frank.toledo@gmail.com",
+    "avatarUrl": "https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5",
+    "url": "https://linear.app/fuse-project/profiles/alexis.frank.toledo",
+    "type": "user"
+  },
+  "createdAt": "2025-08-04T21:12:00.986Z",
+  "data": {
+    "id": "68026925-65e3-4519-9389-27afae068884",
+    "createdAt": "2025-08-04T21:02:49.608Z",
+    "updatedAt": "2025-08-04T21:12:00.866Z",
+    "number": 20,
+    "title": "test new issue wo tags & requires",
+    "priority": 0,
+    "sortOrder": -8440,
+    "prioritySortOrder": -8327.56,
+    "slaType": "all",
+    "addedToProjectAt": "2025-08-04T21:02:49.641Z",
+    "addedToTeamAt": "2025-08-04T21:02:49.641Z",
+    "labelIds": [],
+    "teamId": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+    "projectId": "6739083b-ed15-4965-b1cc-07dcb58a7f73",
+    "previousIdentifiers": [],
+    "creatorId": "76215bf3-ae2a-4267-ac29-72422c152321",
+    "stateId": "6063416f-c195-4616-b357-e7984a254115",
+    "reactionData": [],
+    "priorityLabel": "No priority",
+    "botActor": null,
+    "identifier": "FUS-20",
+    "url": "https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires",
+    "subscriberIds": [
+      "76215bf3-ae2a-4267-ac29-72422c152321",
+      "fc56bce0-47fe-4264-a9f3-771121aafdf4"
+    ],
+    "project": {
+      "id": "6739083b-ed15-4965-b1cc-07dcb58a7f73",
+      "name": "React-app",
+      "url": "https://linear.app/fuse-project/project/react-app-5e8f2ac48596"
+    },
+    "state": {
+      "id": "6063416f-c195-4616-b357-e7984a254115",
+      "color": "#e2e2e2",
+      "name": "Todo",
+      "type": "unstarted"
+    },
+    "team": {
+      "id": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+      "key": "FUS",
+      "name": "Fuse-project"
+    },
+    "syncedWith": [
+      {
+        "id": "3290775885",
+        "service": "github",
+        "metadata": {
+          "repo": "react-ai-agent",
+          "owner": "frankietoledo",
+          "number": 10
+        }
+      }
+    ],
+    "labels": [],
+    "description": null
+  },
+  "updatedFrom": {
+    "subscriberIds": [
+      "76215bf3-ae2a-4267-ac29-72422c152321"
+    ]
+  },
+  "url": "https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires",
+  "type": "Issue",
+  "organizationId": "34c68d9f-3fc8-466e-8b0d-6ae75fad4d53",
+  "webhookTimestamp": 1754341921366,
+  "webhookId": "c1ef561d-d874-4e03-a814-03b846c220ba"
+}
+Evaluating type: Issue
+Evaluating data.id: true
+Evaluating data.title: true
+Payload validation result: true
+Processing Issue webhook for: 68026925-65e3-4519-9389-27afae068884 test new issue wo tags & requires
+payload: {
+  id: '68026925-65e3-4519-9389-27afae068884',
+  createdAt: '2025-08-04T21:02:49.608Z',
+  updatedAt: '2025-08-04T21:12:00.866Z',
+  number: 20,
+  title: 'test new issue wo tags & requires',
+  priority: 0,
+  sortOrder: -8440,
+  prioritySortOrder: -8327.56,
+  slaType: 'all',
+  addedToProjectAt: '2025-08-04T21:02:49.641Z',
+  addedToTeamAt: '2025-08-04T21:02:49.641Z',
+  labelIds: [],
+  teamId: 'd2fd5a30-5097-4479-b344-93f968d0df3c',
+  projectId: '6739083b-ed15-4965-b1cc-07dcb58a7f73',
+  previousIdentifiers: [],
+  creatorId: '76215bf3-ae2a-4267-ac29-72422c152321',
+  stateId: '6063416f-c195-4616-b357-e7984a254115',
+  reactionData: [],
+  priorityLabel: 'No priority',
+  botActor: null,
+  identifier: 'FUS-20',
+  url: 'https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires',
+  subscriberIds: [
+    '76215bf3-ae2a-4267-ac29-72422c152321',
+    'fc56bce0-47fe-4264-a9f3-771121aafdf4'
+  ],
+  project: {
+    id: '6739083b-ed15-4965-b1cc-07dcb58a7f73',
+    name: 'React-app',
+    url: 'https://linear.app/fuse-project/project/react-app-5e8f2ac48596'
+  },
+  state: {
+    id: '6063416f-c195-4616-b357-e7984a254115',
+    color: '#e2e2e2',
+    name: 'Todo',
+    type: 'unstarted'
+  },
+  team: {
+    id: 'd2fd5a30-5097-4479-b344-93f968d0df3c',
+    key: 'FUS',
+    name: 'Fuse-project'
+  },
+  syncedWith: [ { id: '3290775885', service: 'github', metadata: [Object] } ],
+  labels: [],
+  description: null
+}
+Processing issue: {
+  id: '68026925-65e3-4519-9389-27afae068884',
+  title: 'test new issue wo tags & requires',
+  labels: [],
+  project: 'React-app'
+}
+Issue processing result: false
+Task filtered out - not matching processing criteria
+Raw webhook payload: {"type":"AppUserNotification","action":"issueCommentMention","createdAt":"2025-08-04T21:12:04.051Z","organizationId":"34c68d9f-3fc8-466e-8b0d-6ae75fad4d53","oauthClientId":"cf782616a457c9fc01a53efc736fdd39","appUserId":"fc56bce0-47fe-4264-a9f3-771121aafdf4","notification":{"id":"4e8f4df1-20bc-488d-a738-812735f0236b","createdAt":"2025-08-04T21:12:02.033Z","updatedAt":"2025-08-04T21:12:02.033Z","archivedAt":null,"type":"issueCommentMention","actorId":"76215bf3-ae2a-4267-ac29-72422c152321","externalUserActorId":null,"userId":"fc56bce0-47fe-4264-a9f3-771121aafdf4","issueId":"68026925-65e3-4519-9389-27afae068884","issue":{"id":"68026925-65e3-4519-9389-27afae068884","title":"test new issue wo tags & requires","teamId":"d2fd5a30-5097-4479-b344-93f968d0df3c","team":{"id":"d2fd5a30-5097-4479-b344-93f968d0df3c","key":"FUS","name":"Fuse-project"},"identifier":"FUS-20","url":"https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires"},"commentId":"f610ea5b-9c52-41c9-9126-f5d613e416fa","comment":{"id":"f610ea5b-9c52-41c9-9126-f5d613e416fa","body":"@fuseagent can you readJsonFromRepo? this json [https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json](https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json)","userId":"76215bf3-ae2a-4267-ac29-72422c152321","issueId":"68026925-65e3-4519-9389-27afae068884"},"actor":{"id":"76215bf3-ae2a-4267-ac29-72422c152321","name":"Frankie Toledo","email":"alexis.frank.toledo@gmail.com","avatarUrl":"https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5","url":"https://linear.app/fuse-project/profiles/alexis.frank.toledo"}},"webhookTimestamp":1754341924066,"webhookId":"c1ef561d-d874-4e03-a814-03b846c220ba"}
+Received Linear signature: ea1f8bae203e4d8a77530ba69ee9d8904a6b16517a9c94bdf21308d5ce028d1d
+Parsed webhook payload: {
+  "type": "AppUserNotification",
+  "action": "issueCommentMention",
+  "createdAt": "2025-08-04T21:12:04.051Z",
+  "organizationId": "34c68d9f-3fc8-466e-8b0d-6ae75fad4d53",
+  "oauthClientId": "cf782616a457c9fc01a53efc736fdd39",
+  "appUserId": "fc56bce0-47fe-4264-a9f3-771121aafdf4",
+  "notification": {
+    "id": "4e8f4df1-20bc-488d-a738-812735f0236b",
+    "createdAt": "2025-08-04T21:12:02.033Z",
+    "updatedAt": "2025-08-04T21:12:02.033Z",
+    "archivedAt": null,
+    "type": "issueCommentMention",
+    "actorId": "76215bf3-ae2a-4267-ac29-72422c152321",
+    "externalUserActorId": null,
+    "userId": "fc56bce0-47fe-4264-a9f3-771121aafdf4",
+    "issueId": "68026925-65e3-4519-9389-27afae068884",
+    "issue": {
+      "id": "68026925-65e3-4519-9389-27afae068884",
+      "title": "test new issue wo tags & requires",
+      "teamId": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+      "team": {
+        "id": "d2fd5a30-5097-4479-b344-93f968d0df3c",
+        "key": "FUS",
+        "name": "Fuse-project"
+      },
+      "identifier": "FUS-20",
+      "url": "https://linear.app/fuse-project/issue/FUS-20/test-new-issue-wo-tags-and-requires"
+    },
+    "commentId": "f610ea5b-9c52-41c9-9126-f5d613e416fa",
+    "comment": {
+      "id": "f610ea5b-9c52-41c9-9126-f5d613e416fa",
+      "body": "@fuseagent can you readJsonFromRepo? this json [https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json](https://github.com/frankietoledo/react-ai-agent/blob/main/src/data/users.json)",
+      "userId": "76215bf3-ae2a-4267-ac29-72422c152321",
+      "issueId": "68026925-65e3-4519-9389-27afae068884"
+    },
+    "actor": {
+      "id": "76215bf3-ae2a-4267-ac29-72422c152321",
+      "name": "Frankie Toledo",
+      "email": "alexis.frank.toledo@gmail.com",
+      "avatarUrl": "https://public.linear.app/76215bf3-ae2a-4267-ac29-72422c152321/fe119183-4e5a-401b-a4ba-714d66a3b3f5",
+      "url": "https://linear.app/fuse-project/profiles/alexis.frank.toledo"
+    }
+  },
+  "webhookTimestamp": 1754341924066,
+  "webhookId": "c1ef561d-d874-4e03-a814-03b846c220ba"
+}
+Evaluating type: AppUserNotification
+Payload validation result: false
+Webhook processed successfully
+
+

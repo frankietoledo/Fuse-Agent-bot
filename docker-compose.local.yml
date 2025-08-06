@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  fuse-agent:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      LINEAR_CLIENT_ID: ${LINEAR_CLIENT_ID}
+      WORKER_URL: ${WORKER_URL}
+      LINEAR_WEBHOOK_SECRET: ${LINEAR_WEBHOOK_SECRET}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LINEAR_CLIENT_SECRET: ${LINEAR_CLIENT_SECRET}
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run dev
