@@ -1,6 +1,6 @@
 # Fuse Agent for Linear Integration
 
-A sophisticated agent that processes Linear tasks through OpenAI-powered operations. The system handles OAuth authentication with Linear, webhook processing, and maintains conversation state. *Based on [weather-bot from linear](https://github.com/linear/weather-bot)* reworked without Cloudflare integration
+A Agent that processes Linear tasks through OpenAI-powered operations. The system handles OAuth authentication with Linear, webhook processing, and maintains conversation state. *Based on [weather-bot from linear](https://github.com/linear/weather-bot)* reworked without Cloudflare integration.
 
 ## Architecture
 
