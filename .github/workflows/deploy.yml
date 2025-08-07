@@ -20,51 +20,46 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      
       - name: Fetch SSH key from AWS Secrets Manager
         id: fetch_key
         run: |
-          # Early masking to prevent any leaks
           echo "::add-mask::***"
           echo "::add-mask::-----BEGIN"
           echo "::add-mask::-----END"
-          set +x  # Disable command echoing for security
+          set +x
           
-          # Set restrictive umask for file creation
-          umask 077
-          
-          # Make fetch script executable
           chmod +x scripts/fetch-secrets.sh
           
-          # Fetch SSH key from AWS
           SSH_KEY=$(./scripts/fetch-secrets.sh)
           
-          # Additional masking patterns for SSH keys
           echo "::add-mask::$SSH_KEY"
           echo "::add-mask::$(echo "$SSH_KEY" | tr -d '\n')"
           echo "::add-mask::$(echo "$SSH_KEY" | head -c 50)***"
           echo "::add-mask::***$(echo "$SSH_KEY" | tail -c 50)"
           
-          # Create temporary file with restricted permissions
-          SSH_KEY_FILE=$(mktemp /tmp/ssh_key.XXXXXX)
-          chmod 600 "$SSH_KEY_FILE"
+          SSH_KEY_FORMATTED=$(echo "$SSH_KEY" | sed 's/\\n/\n/g')
           
-          # Format and write SSH key to temporary file
-          echo "$SSH_KEY" | sed 's/\\n/\n/g' > "$SSH_KEY_FILE"
+          TEMP_KEY_FILE=$(mktemp)
+          echo "$SSH_KEY_FORMATTED" > "$TEMP_KEY_FILE"
+          chmod 600 "$TEMP_KEY_FILE"
           
-          # Validate SSH key format
-          if ! ssh-keygen -l -f "$SSH_KEY_FILE" >/dev/null 2>&1; then
+          if ! ssh-keygen -l -f "$TEMP_KEY_FILE" >/dev/null 2>&1; then
             echo "ERROR: Invalid SSH key format retrieved from AWS"
-            rm -f "$SSH_KEY_FILE"
+            rm -f "$TEMP_KEY_FILE"
             exit 1
           fi
+          rm -f "$TEMP_KEY_FILE"
           
-          # Store the temporary file path (not the key content)
-          echo "ssh_key_file=$SSH_KEY_FILE" >> $GITHUB_OUTPUT
+          {
+            echo "ssh_key_value<<SSH_KEY_EOF"
+            echo "$SSH_KEY_FORMATTED"
+            echo "SSH_KEY_EOF"
+          } >> $GITHUB_OUTPUT
           
-          # Clear sensitive variables from memory
-          unset SSH_KEY
-          
-          echo "SSH key securely stored in temporary file"
+          unset SSH_KEY SSH_KEY_FORMATTED
+          echo "SSH key securely retrieved and validated"
+
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -94,6 +89,11 @@ jobs:
           # Test SSH connection (optional)
           ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p 4022 \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection successful'"
+
+      - name: Setup SSH with webfactory/ssh-agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ steps.fetch_key.outputs.ssh_key_value }}
 
       - name: Deploy to EC2
         run: |
