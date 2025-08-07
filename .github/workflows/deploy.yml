@@ -86,8 +86,8 @@ jobs:
           
           umask 077
           
-          mkdir -p /home/ubuntu/fuse-agent
-          cd /home/ubuntu/fuse-agent
+          mkdir -p /home/ec2-user/fuse-agent
+          cd /home/ec2-user/fuse-agent
           
           cat > .env << ENV_EOF
           DOCKER_IMAGE_TAG=$1
