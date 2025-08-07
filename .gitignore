@@ -1,7 +1,13 @@
 database.sqlite
 state.db
+notas.md
+*.pem
+
+*.pem
 *.db
 *.sqlite
+notas.md
+
 
 # prod
 dist/
