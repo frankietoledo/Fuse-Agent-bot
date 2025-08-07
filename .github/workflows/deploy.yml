@@ -89,6 +89,15 @@ jobs:
           mkdir -p /home/ec2-user/fuse-agent
           cd /home/ec2-user/fuse-agent
           
+          # Copy docker-compose.prod.yml from repository to remote server
+          scp -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -o LogLevel=ERROR \
+              -o ConnectTimeout=30 \
+              -p 4022 \
+              docker-compose.prod.yml \
+              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ec2-user/fuse-agent/
+
           cat > .env << ENV_EOF
           DOCKER_IMAGE_TAG=$1
           DOCKERHUB_USERNAME=$2
@@ -100,6 +109,7 @@ jobs:
           ENV_EOF
           
           chmod 600 .env
+          chmod 644 docker-compose.prod.yml
           
           docker-compose -f docker-compose.prod.yml pull
           docker-compose -f docker-compose.prod.yml up -d
