@@ -26,11 +26,10 @@ jobs:
           echo "::add-mask::***"
           set +x
           chmod +x scripts/fetch-secrets.sh
-          SSH_KEY=$(./scripts/fetch-secrets.sh 2>&1 | tee /dev/stderr)
+          SSH_KEY=$(./scripts/fetch-secrets.sh)
           echo "::add-mask::$SSH_KEY"
           # Format the SSH key with proper newlines
           SSH_KEY_FORMATTED=$(echo "$SSH_KEY" | sed 's/\\n/\n/g')
-          echo "::set-output name=ssh_key::$SSH_KEY_FORMATTED"
           echo "ssh_key_value<<EOF" >> $GITHUB_OUTPUT
           echo "$SSH_KEY_FORMATTED" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -65,7 +64,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -p 4022 \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "cd /home/ubuntu/fuse-agent && \
+            "mkdir -p /home/ubuntu/fuse-agent && \
+            cd /home/ubuntu/fuse-agent && \
             echo \"DOCKER_IMAGE_TAG=${{ steps.trunk_based_tag.outputs.tag }}\" > .env && \
             echo \"DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}\" >> .env && \
             echo \"LINEAR_CLIENT_ID=${{ secrets.LINEAR_CLIENT_ID }}\" >> .env && \
