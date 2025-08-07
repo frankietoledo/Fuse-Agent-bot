@@ -1,0 +1,71 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Fetch SSH key from AWS
+        id: fetch_key
+        run: |
+          chmod +x scripts/fetch-secrets.sh
+          SSH_KEY=$(./scripts/fetch-secrets.sh)
+          echo "::add-mask::$SSH_KEY"
+          echo "ssh_key_value=$SSH_KEY" >> $GITHUB_OUTPUT
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Generate trunk-based tag
+        id: trunk_based_tag
+        run: echo "tag=$(date +'%Y%m%d%H%M%S')-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fuse-agent:${{ steps.trunk_based_tag.outputs.tag }}
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ steps.fetch_key.outputs.ssh_key_value }}
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "cd /home/ubuntu/fuse-agent && \
+            echo \"DOCKER_IMAGE_TAG=${{ steps.trunk_based_tag.outputs.tag }}\" > .env && \
+            echo \"DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}\" >> .env && \
+            echo \"LINEAR_CLIENT_ID=${{ secrets.LINEAR_CLIENT_ID }}\" >> .env && \
+            echo \"LINEAR_CLIENT_SECRET=${{ secrets.LINEAR_CLIENT_SECRET }}\" >> .env && \
+            echo \"LINEAR_WEBHOOK_SECRET=${{ secrets.LINEAR_WEBHOOK_SECRET }}\" >> .env && \
+            echo \"OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}\" >> .env && \
+            echo \"WORKER_URL=${{ secrets.WORKER_URL }}\" >> .env && \
+            docker-compose -f docker-compose.prod.yml pull && \
+            docker-compose -f docker-compose.prod.yml up -d && \
+            rm .env"

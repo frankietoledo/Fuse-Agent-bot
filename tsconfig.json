@@ -8,5 +8,15 @@
     "lib": [
       "ESNext"
     ],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "esModuleInterop": true 
   },
+  "include": [
+    "src/**/*" 
+  ],
+  "exclude": [
+    "node_modules" 
+  ]
 }

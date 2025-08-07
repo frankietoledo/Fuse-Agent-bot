@@ -11,7 +11,7 @@ export class AgentClient {
     private openai: OpenAI
   ) {}
 
-  async handleUserPrompt(agentSessionId: string, userPrompt: string): Promise<void> {
+  async handleUserPrompt(agentSessionId: string, userPrompt: string): Promise<Content> {
     let state: SessionState = await this.getOrInitializeState(agentSessionId);
     
     // Update issue context from user prompt
@@ -47,13 +47,17 @@ export class AgentClient {
         });
         await this.saveState(agentSessionId, state);
       }
+      // Return content for all activity types
+      return content;
     } catch (error) {
       console.error('[AgentClient] Error handling user prompt:', error);
-      state.activityMessages.push({
+      const errorContent: Content = {
         type: AgentActivityType.Error,
         body: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      };
+      state.activityMessages.push(errorContent);
       await this.saveState(agentSessionId, state);
+      return errorContent;
     }
   }
 

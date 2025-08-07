@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import {
+  LinearClient,
   type AgentSessionEventWebhookPayload,
   LinearWebhooks,
 } from "@linear/sdk";
@@ -10,6 +11,7 @@ import {
   handleOAuthCallback,
   getOAuthToken,
 } from "./lib/oauth.js";
+import { AgentActivityType, Content } from "./lib/types.js";
 
 interface TokenStorage {
   get(key: string): Promise<string | null>;
@@ -178,13 +180,52 @@ async function handleWebhook(
   const stateStorage = new SQLiteStateStorage('state.db');
   const activityStorage = new InMemoryActivityStorage();
   const openai = new OpenAI({ apiKey: openaiApiKey });
+  const linearClient = new LinearClient({ accessToken: linearAccessToken });
   
   const agentClient = new AgentClient(stateStorage, activityStorage, openai);
     
   const userPrompt = generateUserPrompt(webhook);
   console.log("[DEBUG] User prompt generated:", userPrompt.substring(0, 50) + (userPrompt.length > 50 ? "..." : ""));
 
-  await agentClient.handleUserPrompt(webhook.agentSession.id, userPrompt);
+  const content = await agentClient.handleUserPrompt(webhook.agentSession.id, userPrompt);
+  
+  // Handle all response types appropriately
+  if (webhook.agentSession.issue?.id) {
+    switch (content.type) {
+      case AgentActivityType.Response:
+        console.log(`[DEBUG] Posting response to Linear: ${content.body}`);
+        await linearClient.createComment({
+          issueId: webhook.agentSession.issue.id,
+          body: content.body
+        });
+        break;
+      case AgentActivityType.Error:
+        console.error(`[ERROR] Posting error to Linear: ${content.body}`);
+        await linearClient.createComment({
+          issueId: webhook.agentSession.issue.id,
+          body: `Agent error: ${content.body}`
+        });
+        break;
+      case AgentActivityType.Elicitation:
+        console.log(`[DEBUG] Posting elicitation to Linear: ${content.body}`);
+        await linearClient.createComment({
+          issueId: webhook.agentSession.issue.id,
+          body: `Agent requires more context: ${content.parameter}: ${content.body}`
+        });
+        break;
+      case AgentActivityType.Action:
+        console.log(`[DEBUG] Posting action to Linear: ${content.action}(${content.parameter})`);
+        await linearClient.createComment({
+          issueId: webhook.agentSession.issue.id,
+          body: `Agent action: ${content.action}(${content.parameter})`
+        });
+        break;
+      default:
+        console.log(`[DEBUG] Agent activity: ${content.type}${'body' in content ? ` - ${content.body}` : ''}`);
+    }
+  } else {
+    console.log('[WARN] No issue ID found for session, skipping Linear comment');
+  }
 }
 
 function generateUserPrompt(webhook: AgentSessionEventWebhookPayload): string {
