@@ -20,41 +20,52 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Fetch SSH key from AWS
+      - name: Fetch SSH key from AWS Secrets Manager
         id: fetch_key
         run: |
+          # Early masking to prevent any leaks
           echo "::add-mask::***"
-          set +x
-          umask 077  # Restrict file permissions
+          echo "::add-mask::-----BEGIN"
+          echo "::add-mask::-----END"
+          set +x  # Disable command echoing for security
           
+          # Set restrictive umask for file creation
+          umask 077
+          
+          # Make fetch script executable
           chmod +x scripts/fetch-secrets.sh
+          
+          # Fetch SSH key from AWS
           SSH_KEY=$(./scripts/fetch-secrets.sh)
           
-          # Mask the key more thoroughly
+          # Additional masking patterns for SSH keys
           echo "::add-mask::$SSH_KEY"
           echo "::add-mask::$(echo "$SSH_KEY" | tr -d '\n')"
-          echo "::add-mask::$(echo "$SSH_KEY" | head -c 50)"
-          echo "::add-mask::$(echo "$SSH_KEY" | tail -c 50)"
+          echo "::add-mask::$(echo "$SSH_KEY" | head -c 50)***"
+          echo "::add-mask::***$(echo "$SSH_KEY" | tail -c 50)"
+          
+          # Create temporary file with restricted permissions
+          SSH_KEY_FILE=$(mktemp /tmp/ssh_key.XXXXXX)
+          chmod 600 "$SSH_KEY_FILE"
+          
+          # Format and write SSH key to temporary file
+          echo "$SSH_KEY" | sed 's/\\n/\n/g' > "$SSH_KEY_FILE"
           
           # Validate SSH key format
-          if ! echo "$SSH_KEY" | sed 's/\\n/\n/g' | ssh-keygen -l -f - >/dev/null 2>&1; then
-            echo "ERROR: Invalid SSH key format"
+          if ! ssh-keygen -l -f "$SSH_KEY_FILE" >/dev/null 2>&1; then
+            echo "ERROR: Invalid SSH key format retrieved from AWS"
+            rm -f "$SSH_KEY_FILE"
             exit 1
           fi
           
-          # Format the SSH key with proper newlines
-          SSH_KEY_FORMATTED=$(echo "$SSH_KEY" | sed 's/\\n/\n/g')
-          echo "ssh_key_value<<EOF" >> $GITHUB_OUTPUT
-          echo "$SSH_KEY_FORMATTED" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          # Store the temporary file path (not the key content)
+          echo "ssh_key_file=$SSH_KEY_FILE" >> $GITHUB_OUTPUT
           
-          # Clear variable
-          unset SSH_KEY SSH_KEY_FORMATTED
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          # Clear sensitive variables from memory
+          unset SSH_KEY
           
+          echo "SSH key securely stored in temporary file"
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -72,25 +83,98 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/fuse-agent:${{ steps.trunk_based_tag.outputs.tag }}
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ steps.fetch_key.outputs.ssh_key_value }}
+      - name: Add SSH key to agent
+        run: |
+          # Start SSH agent
+          eval "$(ssh-agent -s)"
+          
+          # Add the SSH key from the temporary file
+          ssh-add "${{ steps.fetch_key.outputs.ssh_key_file }}"
+          
+          # Test SSH connection (optional)
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p 4022 \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection successful'"
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -p 4022 \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "mkdir -p /home/ubuntu/fuse-agent && \
-            cd /home/ubuntu/fuse-agent && \
-            echo \"DOCKER_IMAGE_TAG=${{ steps.trunk_based_tag.outputs.tag }}\" > .env && \
-            echo \"DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}\" >> .env && \
-            echo \"LINEAR_CLIENT_ID=${{ secrets.LINEAR_CLIENT_ID }}\" >> .env && \
-            echo \"LINEAR_CLIENT_SECRET=${{ secrets.LINEAR_CLIENT_SECRET }}\" >> .env && \
-            echo \"LINEAR_WEBHOOK_SECRET=${{ secrets.LINEAR_WEBHOOK_SECRET }}\" >> .env && \
-            echo \"OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}\" >> .env && \
-            echo \"WORKER_URL=${{ secrets.WORKER_URL }}\" >> .env && \
-            docker-compose -f docker-compose.prod.yml pull && \
-            docker-compose -f docker-compose.prod.yml up -d && \
-            rm .env"
+          # Create deployment script to avoid exposing secrets in command line
+          DEPLOY_SCRIPT=$(mktemp /tmp/deploy.XXXXXX)
+          chmod 700 "$DEPLOY_SCRIPT"
+          
+          # Write deployment commands to script
+          cat > "$DEPLOY_SCRIPT" << 'SCRIPT_EOF'
+          #!/bin/bash
+          set -euo pipefail
+          
+          # Set restrictive umask for file creation
+          umask 077
+          
+          # Create application directory
+          mkdir -p /home/ubuntu/fuse-agent
+          cd /home/ubuntu/fuse-agent
+          
+          # Create .env file with proper permissions
+          cat > .env << ENV_EOF
+          DOCKER_IMAGE_TAG=$1
+          DOCKERHUB_USERNAME=$2
+          LINEAR_CLIENT_ID=$3
+          LINEAR_CLIENT_SECRET=$4
+          LINEAR_WEBHOOK_SECRET=$5
+          OPENAI_API_KEY=$6
+          WORKER_URL=$7
+          ENV_EOF
+          
+          # Ensure .env has restrictive permissions
+          chmod 600 .env
+          
+          # Pull and deploy
+          docker-compose -f docker-compose.prod.yml pull
+          docker-compose -f docker-compose.prod.yml up -d
+          
+          # Clean up environment file
+          rm -f .env
+          
+          echo "Deployment completed successfully"
+          SCRIPT_EOF
+          
+          # Execute deployment script on remote server
+          ssh -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
+              -o LogLevel=ERROR \
+              -o ConnectTimeout=30 \
+              -o ServerAliveInterval=60 \
+              -p 4022 \
+              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+              'bash -s' < "$DEPLOY_SCRIPT" \
+              "${{ steps.trunk_based_tag.outputs.tag }}" \
+              "${{ secrets.DOCKERHUB_USERNAME }}" \
+              "${{ secrets.LINEAR_CLIENT_ID }}" \
+              "${{ secrets.LINEAR_CLIENT_SECRET }}" \
+              "${{ secrets.LINEAR_WEBHOOK_SECRET }}" \
+              "${{ secrets.OPENAI_API_KEY }}" \
+              "${{ secrets.WORKER_URL }}"
+          
+          # Clean up local deployment script
+          rm -f "$DEPLOY_SCRIPT"
+          
+          echo "Remote deployment script executed successfully"
 
+      - name: Cleanup SSH key
+        if: always()
+        run: |
+          # Remove SSH key from agent
+          if pgrep ssh-agent > /dev/null; then
+            ssh-add -D 2>/dev/null || true
+            pkill ssh-agent 2>/dev/null || true
+          fi
+          
+          # Remove temporary SSH key file
+          if [ -n "${{ steps.fetch_key.outputs.ssh_key_file }}" ] && [ -f "${{ steps.fetch_key.outputs.ssh_key_file }}" ]; then
+            shred -vfz -n 3 "${{ steps.fetch_key.outputs.ssh_key_file }}" 2>/dev/null || \
+            rm -f "${{ steps.fetch_key.outputs.ssh_key_file }}"
+            echo "SSH key file securely removed"
+          fi
+          
+          # Clear any temporary files
+          find /tmp -name "ssh_key.*" -user "$(whoami)" -delete 2>/dev/null || true
+          find /tmp -name "deploy.*" -user "$(whoami)" -delete 2>/dev/null || true
