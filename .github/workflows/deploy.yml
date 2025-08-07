@@ -28,37 +28,28 @@ jobs:
           echo "::add-mask::-----BEGIN"
           echo "::add-mask::-----END"
           set +x
-          
           chmod +x scripts/fetch-secrets.sh
-          
           SSH_KEY=$(./scripts/fetch-secrets.sh)
-          
           echo "::add-mask::$SSH_KEY"
           echo "::add-mask::$(echo "$SSH_KEY" | tr -d '\n')"
           echo "::add-mask::$(echo "$SSH_KEY" | head -c 50)***"
           echo "::add-mask::***$(echo "$SSH_KEY" | tail -c 50)"
-          
           SSH_KEY_FORMATTED=$(echo "$SSH_KEY" | sed 's/\\n/\n/g')
-          
           TEMP_KEY_FILE=$(mktemp)
           echo "$SSH_KEY_FORMATTED" > "$TEMP_KEY_FILE"
           chmod 600 "$TEMP_KEY_FILE"
-          
           if ! ssh-keygen -l -f "$TEMP_KEY_FILE" >/dev/null 2>&1; then
             echo "ERROR: Invalid SSH key format retrieved from AWS"
             rm -f "$TEMP_KEY_FILE"
             exit 1
           fi
           rm -f "$TEMP_KEY_FILE"
-          
           {
             echo "ssh_key_value<<SSH_KEY_EOF"
             echo "$SSH_KEY_FORMATTED"
             echo "SSH_KEY_EOF"
           } >> $GITHUB_OUTPUT
-          
           unset SSH_KEY SSH_KEY_FORMATTED
-          echo "SSH key securely retrieved and validated"
 
 
       - name: Login to Docker Hub
@@ -78,18 +69,6 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/fuse-agent:${{ steps.trunk_based_tag.outputs.tag }}
 
-      - name: Add SSH key to agent
-        run: |
-          # Start SSH agent
-          eval "$(ssh-agent -s)"
-          
-          # Add the SSH key from the temporary file
-          ssh-add "${{ steps.fetch_key.outputs.ssh_key_file }}"
-          
-          # Test SSH connection (optional)
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p 4022 \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection successful'"
-
       - name: Setup SSH with webfactory/ssh-agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -97,7 +76,6 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          # Create deployment script to avoid exposing secrets in command line
           DEPLOY_SCRIPT=$(mktemp /tmp/deploy.XXXXXX)
           chmod 700 "$DEPLOY_SCRIPT"
           
@@ -106,14 +84,11 @@ jobs:
           #!/bin/bash
           set -euo pipefail
           
-          # Set restrictive umask for file creation
           umask 077
           
-          # Create application directory
           mkdir -p /home/ubuntu/fuse-agent
           cd /home/ubuntu/fuse-agent
           
-          # Create .env file with proper permissions
           cat > .env << ENV_EOF
           DOCKER_IMAGE_TAG=$1
           DOCKERHUB_USERNAME=$2
@@ -124,14 +99,11 @@ jobs:
           WORKER_URL=$7
           ENV_EOF
           
-          # Ensure .env has restrictive permissions
           chmod 600 .env
           
-          # Pull and deploy
           docker-compose -f docker-compose.prod.yml pull
           docker-compose -f docker-compose.prod.yml up -d
           
-          # Clean up environment file
           rm -f .env
           
           echo "Deployment completed successfully"
@@ -154,7 +126,6 @@ jobs:
               "${{ secrets.OPENAI_API_KEY }}" \
               "${{ secrets.WORKER_URL }}"
           
-          # Clean up local deployment script
           rm -f "$DEPLOY_SCRIPT"
           
           echo "Remote deployment script executed successfully"
