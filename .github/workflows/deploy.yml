@@ -73,8 +73,13 @@ jobs:
           mkdir -p /home/ec2-user/fuse-agent
           cd /home/ec2-user/fuse-agent
           
+          mkdir -p ~/.ssh
+          echo "${{ steps.fetch_key.outputs.ssh_key_value }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
           # Copy docker-compose.prod.yml from repository to remote server
           scp -o StrictHostKeyChecking=no \
+              -i ~/.ssh/id_rsa \
               -o UserKnownHostsFile=/dev/null \
               -o LogLevel=ERROR \
               -o ConnectTimeout=30 \
@@ -104,6 +109,7 @@ jobs:
           SCRIPT_EOF
           
           ssh -o StrictHostKeyChecking=no \
+              -i ~/.ssh/id_rsa \    
               -o UserKnownHostsFile=/dev/null \
               -o LogLevel=ERROR \
               -o ConnectTimeout=30 \
