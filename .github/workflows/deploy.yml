@@ -99,6 +99,9 @@ jobs:
           echo "${{ steps.fetch_key.outputs.ssh_key_value }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+          cat -v ~/.ssh/id_rsa | head
+          dos2unix ~/.ssh/id_rsa1
+
           # Copy docker-compose.prod.yml from repository to remote server
           scp -o StrictHostKeyChecking=no \
               -i ~/.ssh/id_rsa \
