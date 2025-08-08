@@ -82,7 +82,7 @@ jobs:
           # Write deployment commands to script
           cat > "$DEPLOY_SCRIPT" << 'SCRIPT_EOF'
           #!/bin/bash
-          set -euo pipefail
+          set -xeuo pipefail
           
           umask 077
           
