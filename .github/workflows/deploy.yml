@@ -119,13 +119,12 @@ jobs:
           echo "Deployment completed successfully"
           SCRIPT_EOF
           
-          # Execute deployment script on remote server
           ssh -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               -o LogLevel=ERROR \
               -o ConnectTimeout=30 \
               -o ServerAliveInterval=60 \
-              -p 4022 
+              -p 4022 \
               ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
               'bash -s' < "$DEPLOY_SCRIPT" \
               "${{ steps.trunk_based_tag.outputs.tag }}" \
