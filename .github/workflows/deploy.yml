@@ -94,7 +94,7 @@ jobs:
               -o UserKnownHostsFile=/dev/null \
               -o LogLevel=ERROR \
               -o ConnectTimeout=30 \
-              -p 4022 \
+              -P 4022 \
               docker-compose.prod.yml \
               ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ec2-user/fuse-agent/
 
@@ -125,7 +125,7 @@ jobs:
               -o LogLevel=ERROR \
               -o ConnectTimeout=30 \
               -o ServerAliveInterval=60 \
-              -p 4022 \
+              -p 4022 
               ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
               'bash -s' < "$DEPLOY_SCRIPT" \
               "${{ steps.trunk_based_tag.outputs.tag }}" \
