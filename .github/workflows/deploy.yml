@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
+    env:
+      SSH_HOST: ${{ env.SSH_HOST }}
 
     steps:
       - name: Checkout code
@@ -96,7 +99,7 @@ jobs:
               -o ConnectTimeout=30 \
               -P 4022 \
               docker-compose.prod.yml \
-              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ec2-user/fuse-agent/
+              ${{ secrets.SSH_USER }}@${{ env.SSH_HOST }}:/home/ec2-user/fuse-agent/
 
           cat > .env << ENV_EOF
           DOCKER_IMAGE_TAG=$1
@@ -125,7 +128,7 @@ jobs:
               -o ConnectTimeout=30 \
               -o ServerAliveInterval=60 \
               -p 4022 \
-              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+              ${{ secrets.SSH_USER }}@${{ env.SSH_HOST }} \
               'bash -s' < "$DEPLOY_SCRIPT" \
               "${{ steps.trunk_based_tag.outputs.tag }}" \
               "${{ secrets.DOCKERHUB_USERNAME }}" \
